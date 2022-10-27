@@ -67,3 +67,29 @@ func (I *Repository) InsertState(input postgres.InsertStateInput) *throw.ServerE
 
 	return nil
 }
+
+func (I *Repository) GetHistory(input postgres.GetHistoryInput) ([]postgres.GetHistoryResult, *throw.ServerError) {
+	query := `
+	SELECT locked, timestamp
+	FROM locker
+	WHERE id = :id AND timestamp > :timestamp
+	ORDER BY timestamp;
+	`
+
+	statement, err := I.db.PrepareNamed(query)
+	if err != nil {
+		return nil, throw.NewServerError(err, ErrStmtNotCreated)
+	}
+
+	var result []postgres.GetHistoryResult
+	err = statement.Select(&result, input)
+	if err != nil {
+		return nil, throw.NewServerError(err, ErrExecQuery)
+	}
+
+	if len(result) == 0 {
+		return []postgres.GetHistoryResult{}, nil
+	}
+
+	return result, nil
+}

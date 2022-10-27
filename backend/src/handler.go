@@ -23,3 +23,7 @@ func (I *Handler) Home(w http.ResponseWriter, r *http.Request) {
 func (I *Handler) ChangeState(w http.ResponseWriter, r *http.Request) {
 	utilHttp.Exec(w, r, I.resolver.ChangeState)
 }
+
+func (I *Handler) GetStatistics(w http.ResponseWriter, r *http.Request) {
+	utilHttp.Exec(w, r, I.resolver.GetStatistics)
+}

@@ -16,3 +16,13 @@ type InsertStateInput struct {
 type IsLockedInput struct {
 	Id string `json:"id"`
 }
+
+type GetHistoryInput struct {
+	Id        string    `json:"id"`
+	Timestamp time.Time `json:"timestamp"`
+}
+
+type GetHistoryResult struct {
+	Locked    bool      `json:"locked"`
+	Timestamp time.Time `json:"timestamp"`
+}

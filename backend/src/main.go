@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"path"
@@ -38,7 +37,6 @@ func main() {
 func loadEnvironment() {
 	_, filename, _, _ := runtime.Caller(1)
 	envPath := path.Join(filename, "..", "..", ".env")
-	fmt.Print(envPath)
 
 	godotenv.Load(envPath)
 }
