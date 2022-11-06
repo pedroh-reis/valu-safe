@@ -1,23 +1,28 @@
 #include "WiFi.h"
 #include <WebServer.h>
+#include <ESP32Servo.h>
 #include <uri/UriBraces.h>
 
-const char* WIFI_USER     = "Morada_Passaros Lateral 2.4";
-const char* WIFI_PASSWORD = "maia1234";
+// const char* WIFI_USER     = "Morada_Passaros Lateral 2.4";
+// const char* WIFI_PASSWORD = "maia1234";
 
-struct Locker {
+const char* WIFI_USER     = "LAB-DIDATICO";
+const char* WIFI_PASSWORD = "C1-13#lami#2017";
+
+struct ServoMotor {
+  Servo servo;
   const int pin;
-  bool state;
-};
+}
 
 struct Button {
   const int pin;
 };
 
-struct Locker locker0 = {27, LOW};
-struct Locker locker1 = {26, LOW};
+struct ServoMotor servo0 = {Servo servo, 18};
+struct ServoMotor servo1 = {Servo servo, 19};
 
 struct Button button0 = {18};
+struct Button button1 = {19};
 
 WebServer server(80);
 
@@ -35,9 +40,10 @@ void setupSerialConnection() {
 }
 
 void setupPinModes() {
-  pinMode(locker0.pin, OUTPUT);
-  pinMode(locker1.pin, OUTPUT);
+  servo0.servo.attach(servo0.pin);
+  servo1.servo.attach(servo1.pin);
   pinMode(button0.pin, INPUT);
+  pinMode(button1.pin, INPUT);
   Serial.println(" - Pin modes: OK");
 }
 
@@ -71,25 +77,21 @@ void changeState() {
   String lockerID = server.pathArg(0);
 
   if (lockerID == "0") {
-    if (locker0.state == LOW && digitalRead(button0.pin) == HIGH) {
-      digitalWrite(locker0.pin, HIGH);
-      locker0.state = HIGH;
+    if (servo0.servo.read() == 0 && digitalRead(button0.pin) == HIGH) {
+      servo0.servo.write(180);
       return sendResponse(200, "Locker 0 unlocked with success.");
-    } else if (locker0.state == HIGH && digitalRead(button0.pin) == HIGH) {
-      digitalWrite(locker0.pin, LOW);
-      locker0.state = LOW;
+    } else if (servo0.servo.read() == 180 && digitalRead(button0.pin) == HIGH) {
+      servo0.servo.write(0);
       return sendResponse(200, "Locker 0 locked with success.");
     } else {
       sendResponse(406, "Close locker 0's door before locking it.");
     }
   } else if (lockerID == "1") {
-    if (locker1.state == LOW && digitalRead(button0.pin) == HIGH) {
-      digitalWrite(locker1.pin, HIGH);
-      locker1.state = HIGH;
+    if (servo1.servo.read() == 0 && digitalRead(button1.pin) == HIGH) {
+      servo1.servo.write(180);
       return sendResponse(200, "Locker 1 unlocked with success.");
-    } else if (locker1.state == HIGH && digitalRead(button0.pin) == HIGH) {
-      digitalWrite(locker1.pin, LOW);
-      locker1.state = LOW;
+    } else if (servo1.servo.read() == 180 locker1.state == HIGH && digitalRead(button1.pin) == HIGH) {
+      servo1.servo.write(0);
       return sendResponse(200, "Locker 1 locked with success.");
     } else {
       sendResponse(406, "Close locker 1's door before locking it.");
@@ -101,7 +103,6 @@ void changeState() {
 
 void sendResponse(int code, String message) {
   String jsonMessage = String("{\"message\": \"" + message + "\"}");
-  Serial.println(jsonMessage);
 
   server.send(code, "application/json", jsonMessage);
 }
