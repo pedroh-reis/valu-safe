@@ -14,15 +14,8 @@ struct ServoMotor {
   const int pin;
 }
 
-struct Button {
-  const int pin;
-};
-
 struct ServoMotor servo0 = {Servo servo, 18};
 struct ServoMotor servo1 = {Servo servo, 19};
-
-struct Button button0 = {18};
-struct Button button1 = {19};
 
 WebServer server(80);
 
@@ -42,8 +35,6 @@ void setupSerialConnection() {
 void setupPinModes() {
   servo0.servo.attach(servo0.pin);
   servo1.servo.attach(servo1.pin);
-  pinMode(button0.pin, INPUT);
-  pinMode(button1.pin, INPUT);
   Serial.println(" - Pin modes: OK");
 }
 
@@ -77,24 +68,24 @@ void changeState() {
   String lockerID = server.pathArg(0);
 
   if (lockerID == "0") {
-    if (servo0.servo.read() == 0 && digitalRead(button0.pin) == HIGH) {
-      servo0.servo.write(180);
+    if (servo0.servo.read() == 0) {
+      servo0.servo.write(120);
       return sendResponse(200, "Locker 0 unlocked with success.");
-    } else if (servo0.servo.read() == 180 && digitalRead(button0.pin) == HIGH) {
+    } else if (servo0.servo.read() == 120) {
       servo0.servo.write(0);
       return sendResponse(200, "Locker 0 locked with success.");
     } else {
-      sendResponse(406, "Close locker 0's door before locking it.");
+      sendResponse(425, "Locker 0 is changing its state. Try again!");
     }
   } else if (lockerID == "1") {
-    if (servo1.servo.read() == 0 && digitalRead(button1.pin) == HIGH) {
-      servo1.servo.write(180);
+    if (servo1.servo.read() == 0) {
+      servo1.servo.write(120);
       return sendResponse(200, "Locker 1 unlocked with success.");
-    } else if (servo1.servo.read() == 180 locker1.state == HIGH && digitalRead(button1.pin) == HIGH) {
+    } else if (servo1.servo.read() == 120) {
       servo1.servo.write(0);
       return sendResponse(200, "Locker 1 locked with success.");
     } else {
-      sendResponse(406, "Close locker 1's door before locking it.");
+      sendResponse(425, "Locker 1 is changing its state. Try again!");
     }
   }
 
