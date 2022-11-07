@@ -23,11 +23,11 @@ func NewRepository(db *sqlx.DB) *Repository {
 	}
 }
 
-func (I *Repository) IsLocked(input postgres.IsLockedInput) (bool, *throw.ServerError) {
+func (I *Repository) IsUnlocked(input postgres.IsUnlockedInput) (bool, *throw.ServerError) {
 	query := `
-	SELECT locked
+	SELECT unlocked
 	FROM locker
-	WHERE id = :id
+	WHERE id = :id AND timestamp < :timestamp
 	ORDER BY timestamp DESC
 	LIMIT 1;
 	`
@@ -37,22 +37,22 @@ func (I *Repository) IsLocked(input postgres.IsLockedInput) (bool, *throw.Server
 		return false, throw.NewServerError(err, ErrStmtNotCreated)
 	}
 
-	var isLocked bool
-	err = statement.Get(&isLocked, input)
+	var isUnlocked bool
+	err = statement.Get(&isUnlocked, input)
 	// If there are no rows, the locker is locked
 	if errors.Is(err, sql.ErrNoRows) {
-		return true, nil
+		return false, nil
 	} else if err != nil {
 		return false, throw.NewServerError(err, ErrExecQuery)
 	}
 
-	return isLocked, nil
+	return isUnlocked, nil
 }
 
 func (I *Repository) InsertState(input postgres.InsertStateInput) *throw.ServerError {
 	query := `
-	INSERT INTO locker (id, locked, timestamp)
-	VALUES (:id, :locked, NOW());
+	INSERT INTO locker (id, unlocked, timestamp)
+	VALUES (:id, :unlocked, NOW());
 	`
 
 	statement, err := I.db.PrepareNamed(query)
@@ -70,9 +70,9 @@ func (I *Repository) InsertState(input postgres.InsertStateInput) *throw.ServerE
 
 func (I *Repository) GetHistory(input postgres.GetHistoryInput) ([]postgres.GetHistoryResult, *throw.ServerError) {
 	query := `
-	SELECT locked, timestamp
+	SELECT unlocked, timestamp
 	FROM locker
-	WHERE id = :id AND timestamp > :timestamp
+	WHERE id = :id AND timestamp >= :timestamp
 	ORDER BY timestamp;
 	`
 

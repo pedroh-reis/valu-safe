@@ -24,6 +24,10 @@ func (I *Handler) ChangeState(w http.ResponseWriter, r *http.Request) {
 	utilHttp.Exec(w, r, I.resolver.ChangeState)
 }
 
+func (I *Handler) GetState(w http.ResponseWriter, r *http.Request) {
+	utilHttp.Exec(w, r, I.resolver.GetState)
+}
+
 func (I *Handler) GetStatistics(w http.ResponseWriter, r *http.Request) {
 	utilHttp.Exec(w, r, I.resolver.GetStatistics)
 }

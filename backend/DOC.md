@@ -36,10 +36,10 @@ When the locker is not found (status code = 404)
 }
 ```
 
-When the state fail to be changed (status code = 406)
+When the state fail to be changed (status code = 425)
 ```json
 {
-    "message": "Close locker 0's door before locking it."
+    "message": "Locker 0 is changing its state. Try it again!"
 }
 ```
 

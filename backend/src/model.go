@@ -1,9 +1,22 @@
 package main
 
-import "github.com/pedroh-reis/valu-safe/backend/src/postgres"
+import (
+	"time"
+
+	"github.com/pedroh-reis/valu-safe/backend/src/postgres"
+)
 
 type ChangeStateInput struct {
 	Id string `json:"id"`
+}
+
+type GetStateInput struct {
+	Id        string    `json:"id"`
+	Timestamp time.Time `json:"timestamp"`
+}
+
+type GetStateResult struct {
+	IsUnlocked bool `json:"isUnlocked"`
 }
 
 type GetStatisticsInput struct {

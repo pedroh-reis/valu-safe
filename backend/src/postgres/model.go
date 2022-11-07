@@ -9,12 +9,13 @@ type Locker struct {
 }
 
 type InsertStateInput struct {
-	Id     string `json:"id"`
-	Locked bool   `json:"locked"`
+	Id       string `json:"id"`
+	Unlocked bool   `json:"unlocked"`
 }
 
-type IsLockedInput struct {
-	Id string `json:"id"`
+type IsUnlockedInput struct {
+	Id        string    `json:"id"`
+	Timestamp time.Time `json:"timestamp"`
 }
 
 type GetHistoryInput struct {
@@ -23,6 +24,6 @@ type GetHistoryInput struct {
 }
 
 type GetHistoryResult struct {
-	Locked    bool      `json:"locked"`
+	Unlocked  bool      `json:"unlocked"`
 	Timestamp time.Time `json:"timestamp"`
 }

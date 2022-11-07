@@ -1,5 +1,5 @@
 CREATE TABLE locker (
     id INTEGER,
-    locked BOOLEAN,
+    unlocked BOOLEAN,
     timestamp TIMESTAMP
 );
