@@ -14,7 +14,6 @@ func main() {
 	log.Println("Loading environment variables")
 	loadEnvironment()
 
-	log.Print("aaa")
 	log.Println("Getting db connection")
 	db := GetPostgresDbConnection()
 
