@@ -15,10 +15,11 @@ func sendResponse[T any](w http.ResponseWriter, data T, statusCode int) {
 	}
 
 	w.Header().Set("content-type", "application/json")
-	// w.Header().Set("Access-Control-Allow-Origin", "*")
-	// w.Header().Set("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
-	// w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With")
-	w.WriteHeader(statusCode)
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With")
+	// w.WriteHeader(statusCode)
+	w.WriteHeader(http.StatusOK)
 	w.Write(response)
 
 }

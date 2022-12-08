@@ -9,19 +9,23 @@
 // const char* WIFI_USER     = "LAB-DIDATICO";
 // const char* WIFI_PASSWORD = "C1-13#lami#2017";
 
-const char* WIFI_USER     = "LAB_DIGITAL";
-const char* WIFI_PASSWORD = "C1-17*2018@labdig";
+// const char* WIFI_USER     = "LAB_DIGITAL";
+// const char* WIFI_PASSWORD = "C1-17*2018@labdig";
+
+const char* WIFI_USER     = "fas2612";
+const char* WIFI_PASSWORD = "pambrulurodana";
 
 struct Locker {
   const int pin;
   Servo servo;
+  bool unlocked;
 };
 
 Servo servo0;
 Servo servo1;
 
-Locker locker0 = Locker{27, servo0};
-Locker locker1 = Locker{26, servo1};
+Locker locker0 = Locker{27, servo0, false};
+Locker locker1 = Locker{26, servo1, false};
 
 WebServer server(80);
 
@@ -79,49 +83,29 @@ void changeState() {
 
   if (id == "0") {
     Serial.printf("Serial 0 angle: %d", locker0.servo.read());
-    if (locker0.servo.read() == 0) {
+    if (!locker0.unlocked) {
       locker0.servo.write(120);
-      return sendResponse(200, "Locker unlocked with success.");      
-    } else if (locker0.servo.read() == 119) {
-      locker0.servo.write(0);
-      return sendResponse(200, "Locker locked with success.");
+      locker0.unlocked = true;
+      return sendResponse(200, "Locker 0 unlocked with success.");      
     } else {
-      return sendResponse(425, "Locker 0 is changing its state. Try again!");
+      locker0.servo.write(0);
+      locker0.unlocked = false;
+      return sendResponse(200, "Locker 0 locked with success.");
     }
   } else if (id == "1") {
     Serial.printf("Serial 1 angle: %d", locker1.servo.read());
-    if (locker1.servo.read() == 0) {
+    if (!locker1.unlocked) {
       locker1.servo.write(120);
-      return sendResponse(200, "Locker unlocked with success.");      
-    } else if (locker1.servo.read() == 119) {
-      locker1.servo.write(0);
-      return sendResponse(200, "Locker locked with success.");
+      locker1.unlocked = true;
+      return sendResponse(200, "Locker 1 unlocked with success.");      
     } else {
-      return sendResponse(425, "Locker 0 is changing its state. Try again!");
+      locker1.servo.write(0);
+      locker1.unlocked = false;
+      return sendResponse(200, "Locker 1 locked with success.");
     }
   }
 
   return sendResponse(404, "Locker not found.");
-
-
-
-
-  // int i = getLockerIndexById(id);
-
-  // if (i == -1) {
-  //   return sendResponse(404, "Locker not found.");
-  // }
-  // Serial.println("chegou aqui");
-  // Serial.printf("Servo %s angle: %d\n", i, lockers[i].servo.read());
-  // if (lockers[i].servo.read() == 0) {
-  //   lockers[i].servo.write(120);
-  //   return sendResponse(200, "Locker unlocked with success.");    
-  // } else if (lockers[i].servo.read() == 120) {
-  //   lockers[i].servo.write(0);
-  //   return sendResponse(200, "Locker locked with success.");
-  // } else {
-  //   return sendResponse(425, "Locker 0 is changing its state. Try again!");    
-  // }
 }
 
 void sendResponse(int code, String message) {
