@@ -113,3 +113,4 @@ When the timeframe is invalid (status code = 400)
     "message": "Invalid timeframe. Check the documentation."
 }
 ```
+

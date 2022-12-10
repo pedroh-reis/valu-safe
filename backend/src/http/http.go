@@ -16,8 +16,9 @@ func sendResponse[T any](w http.ResponseWriter, data T, statusCode int) {
 
 	w.Header().Set("content-type", "application/json")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
+	// w.Header().Set("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With")
+	// fmt.Print(statusCode)
 	// w.WriteHeader(statusCode)
 	w.WriteHeader(http.StatusOK)
 	w.Write(response)
@@ -26,6 +27,7 @@ func sendResponse[T any](w http.ResponseWriter, data T, statusCode int) {
 
 func sendResponseWithError(w http.ResponseWriter, serverError *throw.ServerError) {
 	log.Print(serverError.Error())
+	log.Print(serverError.GetHttpError().GetMessage())
 
 	data := NewHTTPDefaultResponseBody(serverError.GetHttpError().GetMessage())
 	sendResponse(w, data, serverError.GetHttpError().GetStatusCode())

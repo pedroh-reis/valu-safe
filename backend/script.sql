@@ -1,11 +1,11 @@
 INSERT INTO locker (id, unlocked, timestamp)
 VALUES
-    (0, TRUE, '2022-11-07 07:00:00'),
-    (0, FALSE, '2022-11-07 07:01:00'),
-    (0, TRUE, '2022-11-07 07:02:00'),
-    (0, False, '2022-11-07 07:03:00');
+    (0, TRUE, NOW() - INTERVAL '12 hour'),
+    (0, FALSE, NOW() - INTERVAL '10 hour'),
+    (0, TRUE, NOW() - INTERVAL '5 hour'),
+    (0, FALSE, NOW() - INTERVAL '2 hour'),
 
-
-INSERT INTO locker (id, unlocked, timestamp)
-VALUES
-    (0, TRUE, NOW());
+    (1, TRUE, NOW() - INTERVAL '12 hour'),
+    (1, FALSE, NOW() - INTERVAL '10 hour'),
+    (1, TRUE, NOW() - INTERVAL '5 hour'),
+    (1, FALSE, NOW() - INTERVAL '2 hour');

@@ -1,0 +1,41 @@
+{
+  "timesunlocked": 2,
+  "history": [
+    {
+      "unlocked": true,
+      "timestamp": "2022-10-27T05:06:51.108072Z"
+    },
+    {
+      "unlocked": false,
+      "timestamp": "2022-10-27T05:07:00.723334Z"
+    },
+    {
+      "unlocked": false,
+      "timestamp": "2022-10-27T05:07:06.973785Z"
+    },
+    {
+      "unlocked": true,
+      "timestamp": "2022-10-27T05:06:51.108072Z"
+    },
+    {
+      "unlocked": false,
+      "timestamp": "2022-10-27T05:07:00.723334Z"
+    },
+    {
+      "unlocked": false,
+      "timestamp": "2022-10-27T05:07:06.973785Z"
+    },
+    {
+      "unlocked": true,
+      "timestamp": "2022-10-27T05:06:51.108072Z"
+    },
+    {
+      "unlocked": false,
+      "timestamp": "2022-10-27T05:07:00.723334Z"
+    },
+    {
+      "unlocked": false,
+      "timestamp": "2022-10-27T05:07:06.973785Z"
+    }
+  ]
+}

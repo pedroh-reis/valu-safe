@@ -46,7 +46,7 @@ void setupPinModes() {
   locker0.servo.attach(locker0.pin);
   locker1.servo.attach(locker1.pin);
 
-  locker0.servo.write(0);
+  locker0.servo.write(180);
   locker1.servo.write(0);
 
   Serial.println(" - Pin modes: OK");
@@ -84,18 +84,18 @@ void changeState() {
   if (id == "0") {
     Serial.printf("Serial 0 angle: %d", locker0.servo.read());
     if (!locker0.unlocked) {
-      locker0.servo.write(120);
+      locker0.servo.write(0);
       locker0.unlocked = true;
       return sendResponse(200, "Locker 0 unlocked with success.");      
     } else {
-      locker0.servo.write(0);
+      locker0.servo.write(180);
       locker0.unlocked = false;
       return sendResponse(200, "Locker 0 locked with success.");
     }
   } else if (id == "1") {
     Serial.printf("Serial 1 angle: %d", locker1.servo.read());
     if (!locker1.unlocked) {
-      locker1.servo.write(120);
+      locker1.servo.write(180);
       locker1.unlocked = true;
       return sendResponse(200, "Locker 1 unlocked with success.");      
     } else {

@@ -27,5 +27,7 @@ type GetStatisticsInput struct {
 
 type GetStatisticsResult struct {
 	TimesUnlocked int                         `json:"timesUnlocked"`
+	PercUnlocked  float32                     `json:"percUnlocked"`
+	PercLocked    float32                     `json:"percLocked"`
 	History       []postgres.GetHistoryResult `json:"history"`
 }

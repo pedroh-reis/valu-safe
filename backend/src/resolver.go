@@ -109,8 +109,36 @@ func (I *Resolver) GetStatistics(input GetStatisticsInput) (*GetStatisticsResult
 		timesUnlocked += 1
 	}
 
+	var totalTime int64
+
+	for i := 0; i < len(history)-1; i++ {
+		totalTime += history[i+1].Timestamp.Unix() - history[i].Timestamp.Unix()
+	}
+
+	var percUnlocked float32
+	var percLocked float32
+
+	if len(history) == 1 {
+		if history[0].Unlocked {
+			percUnlocked = 100.0
+		} else {
+			percUnlocked = 0.0
+		}
+		percLocked = 100.0 - percUnlocked
+	} else {
+		if history[0].Unlocked {
+			percUnlocked = 100 * float32(totalTime) / float32(currentTime.Unix()-timestamp.Unix())
+			percLocked = 100.0 - percUnlocked
+		} else {
+			percLocked = 100 * float32(totalTime) / float32(currentTime.Unix()-timestamp.Unix())
+			percUnlocked = 100.0 - percLocked
+		}
+	}
+
 	return &GetStatisticsResult{
 		TimesUnlocked: timesUnlocked,
+		PercUnlocked:  percUnlocked,
+		PercLocked:    percLocked,
 		History:       history,
 	}, nil
 }

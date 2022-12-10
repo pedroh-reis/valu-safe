@@ -12,12 +12,12 @@ import (
 var ErrDecodeBody = throw.NewHttpError("Could not decode body as json", http.StatusBadRequest)
 var ErrEncodeBody = throw.NewHttpError("Could not encode body as json", http.StatusBadRequest)
 
+var ErrDecodeBodyAsByte = throw.NewHttpError("Could not decode body in bytes", http.StatusBadRequest)
+
 func DecodeBody[T any](body io.ReadCloser) (T, *throw.ServerError) {
 	var structBody T
-	decoder := json.NewDecoder(body)
-	decoder.DisallowUnknownFields()
 
-	err := decoder.Decode(&structBody)
+	err := json.NewDecoder(body).Decode(&structBody)
 	if err != nil {
 		return structBody, throw.NewServerError(err, ErrDecodeBody)
 	}
