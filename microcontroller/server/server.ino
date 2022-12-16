@@ -6,14 +6,14 @@
 // const char* WIFI_USER     = "Morada_Passaros Lateral 2.4";
 // const char* WIFI_PASSWORD = "maia1234";
 
-// const char* WIFI_USER     = "LAB-DIDATICO";
-// const char* WIFI_PASSWORD = "C1-13#lami#2017";
+const char* WIFI_USER     = "LAB-DIDATICO";
+const char* WIFI_PASSWORD = "C1-13#lami#2017";
 
 // const char* WIFI_USER     = "LAB_DIGITAL";
 // const char* WIFI_PASSWORD = "C1-17*2018@labdig";
 
-const char* WIFI_USER     = "fas2612";
-const char* WIFI_PASSWORD = "pambrulurodana";
+// const char* WIFI_USER     = "fas2612";
+// const char* WIFI_PASSWORD = "pambrulurodana";
 
 struct Locker {
   const int pin;
